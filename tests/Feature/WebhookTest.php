@@ -2,48 +2,37 @@
 
 declare(strict_types=1);
 
-namespace Siberfx\TelegramBot\Tests\Feature;
-
 use Illuminate\Support\Facades\Queue;
-use PHPUnit\Framework\Attributes\Test;
 use Siberfx\TelegramBot\Facades\Telegram;
 use Siberfx\TelegramBot\Jobs\ProcessUpdate;
-use Siberfx\TelegramBot\Testing\UpdateFactory;
-use Siberfx\TelegramBot\Tests\TestCase;
 
-final class WebhookTest extends TestCase
-{
-    #[Test]
-    public function it_handles_webhook_updates_with_a_valid_secret(): void
-    {
-        $tester = Telegram::fake();
-        $update = (new UpdateFactory)->text('/start')->toArray();
+it('handles webhook updates with a valid secret', function () {
+    $tester = Telegram::fake();
 
-        $this->postJson('/telegram/main/webhook', $update, ['X-Telegram-Bot-Api-Secret-Token' => 'top-secret'])
-            ->assertOk()
-            ->assertJson(['ok' => true]);
+    $this->postJson('/telegram/main/webhook', textUpdate('/start'), webhookHeaders())
+        ->assertOk()
+        ->assertJson(['ok' => true]);
 
-        $tester->assertSent('sendMessage', fn (array $p) => $p['text'] === 'Welcome!');
-    }
+    $tester->assertSent('sendMessage', fn (array $p) => $p['text'] === 'Welcome!');
+});
 
-    #[Test]
-    public function it_rejects_invalid_secrets_and_unknown_bots(): void
-    {
-        $update = (new UpdateFactory)->text('/start')->toArray();
+it('rejects an invalid secret', function () {
+    $this->postJson('/telegram/main/webhook', textUpdate('/start'), webhookHeaders('wrong'))->assertForbidden();
+});
 
-        $this->postJson('/telegram/main/webhook', $update, ['X-Telegram-Bot-Api-Secret-Token' => 'wrong'])->assertForbidden();
-        $this->postJson('/telegram/nope/webhook', $update)->assertNotFound();
-    }
+it('returns 404 for unknown bots', function () {
+    $this->postJson('/telegram/nope/webhook', textUpdate('/start'))->assertNotFound();
+});
 
-    #[Test]
-    public function it_can_queue_updates(): void
-    {
-        Queue::fake();
-        config(['telegram-bot.queue.enabled' => true]);
+it('rejects payloads that are not updates', function () {
+    $this->postJson('/telegram/main/webhook', ['foo' => 'bar'], webhookHeaders())->assertStatus(400);
+});
 
-        $this->postJson('/telegram/main/webhook', (new UpdateFactory)->text('/start')->toArray(), ['X-Telegram-Bot-Api-Secret-Token' => 'top-secret'])
-            ->assertOk();
+it('can queue updates', function () {
+    Queue::fake();
+    config(['telegram-bot.queue.enabled' => true]);
 
-        Queue::assertPushed(ProcessUpdate::class, fn (ProcessUpdate $job) => $job->bot === 'main');
-    }
-}
+    $this->postJson('/telegram/main/webhook', textUpdate('/start'), webhookHeaders())->assertOk();
+
+    Queue::assertPushed(ProcessUpdate::class, fn (ProcessUpdate $job) => $job->bot === 'main');
+});
