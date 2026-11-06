@@ -2,7 +2,9 @@
 
 All notable changes to `siberfx/telegram-bot` are documented in this file.
 
-## 1.0.0 - 2026-11-06
+## 0.1.0 - 2026-11-06
+
+First public release.
 
 ### Added
 - `hears()` patterns with required/optional parameters, attachment listeners, `on()` update/message events and `fallback()`.
