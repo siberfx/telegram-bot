@@ -2,7 +2,7 @@
 
 All notable changes to `siberfx/telegram-bot` are documented in this file.
 
-## Unreleased
+## 0.1.1 - 2026-11-06
 
 ### Changed
 - The test suite is now written in Pest 4 (`composer test` runs `pest`), with additional coverage for parameters, captions, user filters, middleware validation, unhandled exceptions and webhook payload validation.
