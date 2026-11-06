@@ -1,0 +1,65 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Telegram bot routes
+|--------------------------------------------------------------------------
+|
+| $bot is the Siberfx\TelegramBot\TelegramBot instance handling the update.
+| Try it without Telegram: php artisan telegram-bot:tinker
+|
+*/
+
+use Siberfx\TelegramBot\Incoming\IncomingMessage;
+use Siberfx\TelegramBot\Outgoing\Button;
+use Siberfx\TelegramBot\Outgoing\Question;
+use Siberfx\TelegramBot\TelegramBot;
+
+/** @var TelegramBot $bot */
+
+$bot->hears('/start {payload?}', function (TelegramBot $bot, ?string $payload = null) {
+    $bot->reply('Hello '.($bot->user()?->firstName ?? 'there').'! Type /help to see what I can do.');
+});
+
+$bot->hears('/help', function (TelegramBot $bot) {
+    $bot->reply(implode("\n", [
+        'call me {name} – I will remember your name',
+        'who am i – I will tell you your name',
+        '/menu – show some buttons',
+    ]));
+});
+
+$bot->hears('call me {name}', function (TelegramBot $bot, string $name) {
+    $bot->userStorage()->put('name', $name);
+    $bot->reply("Okay, I will call you {$name}.");
+});
+
+$bot->hears('who am i', function (TelegramBot $bot) {
+    $bot->reply('You are '.$bot->userStorage()->get('name', 'a mystery').'.');
+});
+
+$bot->hears('/menu', function (TelegramBot $bot) {
+    $bot->reply(Question::create('Pick one')->addButtons([
+        Button::create('🍕 Pizza')->value('food:pizza'),
+        Button::create('🍣 Sushi')->value('food:sushi'),
+        Button::create('Docs')->url('https://core.telegram.org/bots/api'),
+    ])->columns(2));
+});
+
+$bot->hears('food:{choice}', function (TelegramBot $bot, string $choice) {
+    $bot->answerCallback("You picked {$choice}");
+    $bot->editMessage("Enjoy your {$choice}!");
+});
+
+$bot->receivesImages(function (TelegramBot $bot) {
+    $bot->reply('Nice picture!');
+});
+
+$bot->receivesLocation(function (TelegramBot $bot) {
+    $location = $bot->message()->location();
+    $bot->reply("You are at {$location->latitude}, {$location->longitude}");
+});
+
+$bot->fallback(function (TelegramBot $bot) {
+    $bot->reply("Sorry, I did not understand that. Type /help.");
+});

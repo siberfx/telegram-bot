@@ -1,0 +1,40 @@
+<?php
+
+namespace {{ namespace }};
+
+use Siberfx\TelegramBot\Conversations\Conversation;
+use Siberfx\TelegramBot\Incoming\Answer;
+use Siberfx\TelegramBot\Outgoing\Button;
+use Siberfx\TelegramBot\Outgoing\Question;
+
+class {{ class }} extends Conversation
+{
+    protected ?string $name = null;
+
+    public function run(): void
+    {
+        $this->ask('What is your name?', 'askConfirmation');
+    }
+
+    public function askConfirmation(Answer $answer): void
+    {
+        $this->name = $answer->text();
+
+        $question = Question::create("Is {$this->name} correct?")
+            ->addButtons([
+                Button::create('Yes')->value('yes'),
+                Button::create('No')->value('no'),
+            ])
+            ->columns(2);
+
+        $this->ask($question, [
+            ['pattern' => 'yes', 'callback' => 'finish'],
+            ['pattern' => 'no', 'callback' => fn () => $this->run()],
+        ]);
+    }
+
+    public function finish(): void
+    {
+        $this->say("Nice to meet you, {$this->name}!");
+    }
+}
