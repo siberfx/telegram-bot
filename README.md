@@ -8,6 +8,8 @@ a console <b>tinker</b> and a fluent <b>testing</b> API — Telegram-first, full
 
 <p align="center">
 <a href="https://packagist.org/packages/siberfx/telegram-bot"><img src="https://img.shields.io/packagist/v/siberfx/telegram-bot.svg?style=flat-square" alt="Latest Version"></a>
+<a href="https://github.com/siberfx/telegram-bot/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/siberfx/telegram-bot/tests.yml?branch=main&label=tests&style=flat-square" alt="Tests"></a>
+<a href="https://github.com/siberfx/telegram-bot/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/siberfx/telegram-bot/lint.yml?branch=main&label=pint&style=flat-square" alt="Code style"></a>
 <img src="https://img.shields.io/badge/php-%5E8.4-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP ^8.4">
 <img src="https://img.shields.io/badge/laravel-13.x-FF2D20?style=flat-square&logo=laravel&logoColor=white" alt="Laravel 13">
 <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
