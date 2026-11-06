@@ -1,0 +1,73 @@
+{
+    "name": "siberfx/telegram-bot",
+    "description": "A clean, modern Telegram bot framework for Laravel 13: hears/patterns, conversations, keyboards, attachments, middleware, storage, long polling, a console tinker and a fluent testing API.",
+    "keywords": [
+        "laravel",
+        "telegram",
+        "telegram-bot",
+        "bot",
+        "chatbot",
+        "conversations",
+        "botman",
+        "siberfx"
+    ],
+    "homepage": "https://github.com/siberfx/telegram-bot",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Selim Görmüş",
+            "email": "info@siberfx.com",
+            "homepage": "https://github.com/siberfx",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/siberfx/telegram-bot/issues",
+        "source": "https://github.com/siberfx/telegram-bot"
+    },
+    "require": {
+        "php": "^8.4",
+        "guzzlehttp/guzzle": "^7.8",
+        "laravel/framework": "^13.0",
+        "laravel/serializable-closure": "^2.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^11.0",
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Siberfx\\TelegramBot\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Siberfx\\TelegramBot\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "lint": "pint",
+        "lint:check": "pint --test"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Siberfx\\TelegramBot\\TelegramBotServiceProvider"
+            ],
+            "aliases": {
+                "Telegram": "Siberfx\\TelegramBot\\Facades\\Telegram"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
