@@ -2,6 +2,17 @@
 
 All notable changes to `siberfx/telegram-bot` are documented in this file.
 
+## 0.1.2 - 2026-11-06
+
+### Added
+- GitHub Actions `tests` workflow: Pest on PHP 8.4 and 8.5 with lowest and stable dependencies, plus Windows.
+- GitHub Actions `lint` workflow: `composer validate --strict` and Pint.
+- Dependabot updates for GitHub Actions.
+- CI status badges in the README.
+
+### Changed
+- Workflows use `actions/checkout@v7` and `actions/cache@v6`.
+
 ## 0.1.1 - 2026-11-06
 
 ### Changed
