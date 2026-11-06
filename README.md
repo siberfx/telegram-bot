@@ -1090,7 +1090,7 @@ php artisan telegram-bot:tinker --bot=support
 
 ## Testing
 
-`Telegram::fake()` swaps the bot for one with an in-memory client and cache, loads your routes file and returns a fluent tester. Replies are asserted **in order**.
+`Telegram::fake()` swaps the bot for one with an in-memory client and cache, loads your routes file and returns a fluent tester. Replies are asserted **in order**. The examples use [Pest](https://pestphp.com); the tester works the same inside PHPUnit test methods.
 
 ```php
 use Siberfx\TelegramBot\Facades\Telegram;
@@ -1386,11 +1386,11 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 ```bash
 composer install
-composer test        # PHPUnit
+composer test        # Pest
 composer lint        # Pint
 ```
 
-Pull requests are welcome — please add tests for new behaviour.
+The package's own suite is written in [Pest 4](https://pestphp.com) on top of Orchestra Testbench (`tests/Pest.php` binds the Testbench `TestCase` to `tests/Feature`). Pull requests are welcome — please add a Pest test for new behaviour.
 
 ## License
 
