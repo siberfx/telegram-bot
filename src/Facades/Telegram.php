@@ -6,6 +6,7 @@ namespace Siberfx\TelegramBot\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Siberfx\TelegramBot\BotManager;
+use Siberfx\TelegramBot\TelegramBot;
 
 /**
  * @method static \Siberfx\TelegramBot\TelegramBot bot(?string $name = null)
@@ -31,7 +32,7 @@ use Siberfx\TelegramBot\BotManager;
  * @method static bool setCommands(?array $commands = null, array $options = [])
  *
  * @see BotManager
- * @see \Siberfx\TelegramBot\TelegramBot
+ * @see TelegramBot
  */
 final class Telegram extends Facade
 {

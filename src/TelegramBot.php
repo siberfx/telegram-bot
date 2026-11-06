@@ -406,7 +406,6 @@ class TelegramBot
         };
     }
 
-    /** @param Update $update */
     protected function dispatchListeners(Update $update): void
     {
         if ($this->listeners === []) {
